@@ -38,6 +38,9 @@ class MainActivity : AppCompatActivity() {
                     .into(ivAvatar)
                 tvName.text = user.name
                 tvBio.text = user.bio
+                tvFollowers.text = user.followers.toString()
+                tvFollowings.text = user.following.toString()
+                tvRepositories.text = user.publicRepos.toString()
             }
         })
 
