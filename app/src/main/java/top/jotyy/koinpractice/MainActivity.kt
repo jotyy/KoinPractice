@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             binding.run {
                 Picasso.get()
                     .load(user.avatarUrl)
+                    .placeholder(R.mipmap.ic_launcher_round)
                     .into(ivAvatar)
                 tvName.text = user.name
                 tvBio.text = user.bio
