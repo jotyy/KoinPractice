@@ -1,8 +1,11 @@
 package top.jotyy.koinpractice.data.model
 
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "user")
 data class User(
     @SerializedName("avatar_url")
     val avatarUrl: String,
@@ -17,7 +20,7 @@ data class User(
     @SerializedName("following")
     val following: Int,
     @SerializedName("id")
-    val id: Int,
+    @PrimaryKey(autoGenerate = false) val id: Int,
     @SerializedName("login")
     val login: String,
     @SerializedName("name")
