@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Koin Practice</string>
+    <string name="database">app_db</string>
 </resources>

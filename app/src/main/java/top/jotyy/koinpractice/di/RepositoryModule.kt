@@ -5,6 +5,6 @@ import top.jotyy.koinpractice.repository.UserRepository
 
 val repositoryModule = module {
     factory {
-        UserRepository(get())
+        UserRepository(get(), get())
     }
 }

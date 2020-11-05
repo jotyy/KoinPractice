@@ -4,12 +4,14 @@ import android.util.Log
 import top.jotyy.koinpractice.data.Failure
 import top.jotyy.koinpractice.data.HttpResult
 import top.jotyy.koinpractice.data.Success
+import top.jotyy.koinpractice.data.local.UserDao
 import top.jotyy.koinpractice.data.model.User
 import top.jotyy.koinpractice.data.remote.ApiService
 import java.io.IOException
 
 class UserRepository(
-    private val api: ApiService
+    private val api: ApiService,
+    private val dao: UserDao
 ) {
 
     suspend fun fetchUser(user: String): HttpResult<User> =
