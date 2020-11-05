@@ -13,7 +13,7 @@ import top.jotyy.koinpractice.data.Success
 import top.jotyy.koinpractice.data.model.User
 import top.jotyy.koinpractice.repository.UserRepository
 
-class MainViewModel (
+class MainViewModel(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
@@ -31,11 +31,7 @@ class MainViewModel (
 
     fun fetchUser() {
         viewModelScope.launch {
-            flow {
-                emit(State.Loading)
-                emit(userRepository.fetchUser("jotyy"))
-                emit(State.Loaded)
-            }.collect { result ->
+            userRepository.fetchUser("jotyy").collect { result ->
                 when (result) {
                     is Success -> _user.value = result.data
                     is Failure -> _error.value = result.error

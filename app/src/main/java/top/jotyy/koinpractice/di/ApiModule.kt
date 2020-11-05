@@ -3,7 +3,7 @@ package top.jotyy.koinpractice.di
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import top.jotyy.koinpractice.data.remote.ApiService
+import top.jotyy.koinpractice.data.remote.UserService
 
 val apiModule = module {
 
@@ -12,6 +12,6 @@ val apiModule = module {
             .baseUrl("https://api.github.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(ApiService::class.java)
+            .create(UserService::class.java)
     }
 }
