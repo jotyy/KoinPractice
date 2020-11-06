@@ -4,7 +4,7 @@
 
 Here is the architecture  graph of this project.
 
-<img src="C:\Users\p\Documents\OneNote 笔记本\MVVM-Architecture.png" alt="image-20201105182731125" style="zoom:67%;" />
+<img src="https://github.com/jotyy/koinpractice/images/MVVM-ARCHITECTURE.png" alt="image-20201105182731125" style="zoom:67%;" />
 
 ### 🔨 Framworks/Libraries
 
