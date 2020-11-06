@@ -3,11 +3,9 @@ package top.jotyy.koinpractice.repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import top.jotyy.koinpractice.data.Failure
-import top.jotyy.koinpractice.data.MyResult
 import top.jotyy.koinpractice.data.State
 import top.jotyy.koinpractice.data.Success
 import top.jotyy.koinpractice.data.local.UserDao
-import top.jotyy.koinpractice.data.model.User
 import top.jotyy.koinpractice.data.remote.UserService
 
 class UserRepository(
