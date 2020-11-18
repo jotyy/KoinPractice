@@ -20,7 +20,7 @@ In this project, I worked with these frameworks.
   - MVVM Architecture (View - DataBinding - ViewModel - Model)
   - Repository pattern
   - [Koin](https://github.com/InsertKoinIO/koin) - dependency injection
-- [Retrofit2 & Gson](https://github.com/square/retrofit) - constructing the REST API
+- [Ktor & Gson](https://github.com/ktorio/ktor) - constructing the REST API
 - [Picasso](https://github.com/square/picasso) - loading images
 
 ### 📜 Article

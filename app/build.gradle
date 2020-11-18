@@ -43,11 +43,10 @@ android {
 }
 
 dependencies {
-    def koinVersion = "2.1.6"
-    def retrofitVersion = "2.9.0"
-    def okhttpVersion = "4.9.0"
+    def koinVersion = "2.2.0"
     def picassoVersion = "2.71828"
     def roomVersion = "2.2.5"
+    def ktorVersion = "1.4.2"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
@@ -64,11 +63,10 @@ dependencies {
     implementation "org.koin:koin-android-ext:$koinVersion"
 
     // Network
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+    implementation "io.ktor:ktor-client-core:$ktorVersion"
+    implementation "io.ktor:ktor-client-android:$ktorVersion"
+    implementation "io.ktor:ktor-client-json-jvm:$ktorVersion"
+    implementation "io.ktor:ktor-client-gson:$ktorVersion"
 
     // Image
     implementation "com.squareup.picasso:picasso:$picassoVersion"
@@ -87,7 +85,8 @@ dependencies {
     testImplementation "androidx.test:core:1.3.0"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.1"
     testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation "org.robolectric:robolectric:4.3"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+    testImplementation "org.robolectric:robolectric:4.4"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     testImplementation "org.mockito:mockito-inline:3.5.13"
+    testImplementation "io.ktor:ktor-client-mock:$ktorVersion"
 }

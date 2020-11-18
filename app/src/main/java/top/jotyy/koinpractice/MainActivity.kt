@@ -45,10 +45,11 @@ class MainActivity : AppCompatActivity() {
         })
 
         viewModel.error.observe(this, { error ->
-            Snackbar.make(binding.root, error, Snackbar.LENGTH_SHORT)
+            Snackbar.make(binding.root, error, Snackbar.LENGTH_INDEFINITE)
                 .setAction("RETRY") {
                     viewModel.fetchUser()
                 }
+                .show()
         })
     }
 }
