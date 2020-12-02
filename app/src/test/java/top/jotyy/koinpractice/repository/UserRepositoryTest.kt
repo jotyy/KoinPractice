@@ -1,32 +1,28 @@
 package top.jotyy.koinpractice.repository
 
 import com.google.gson.Gson
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.core.spec.style.FunSpec
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
 import io.ktor.client.features.json.*
 import io.ktor.http.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.spyk
 import kotlinx.coroutines.flow.collectIndexed
-import kotlinx.coroutines.runBlocking
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.Is.`is`
-import org.hamcrest.core.IsInstanceOf.instanceOf
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import top.jotyy.koinpractice.MainCoroutinesRule
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeInstanceOf
+import org.junit.internal.runners.statements.Fail
 import top.jotyy.koinpractice.data.Failure
 import top.jotyy.koinpractice.data.State
 import top.jotyy.koinpractice.data.Success
 import top.jotyy.koinpractice.data.local.UserDao
 import top.jotyy.koinpractice.mockUserInfo
 
-class UserRepositoryTest {
-    private lateinit var repository: UserRepository
-    private val userClient: HttpClient = HttpClient(MockEngine) {
+
+class UserRepositoryTest : BehaviorSpec({
+    val userClient: HttpClient = HttpClient(MockEngine) {
         install(JsonFeature) {
             serializer = GsonSerializer()
         }
@@ -44,48 +40,40 @@ class UserRepositoryTest {
             }
         }
     }
-    private val userDao: UserDao = mock()
+    val userDao: UserDao = spyk()
+    every { userDao.delete() } returns Unit
+    every { userDao.getUserByName(any()) } returns mockUserInfo()
 
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    var coroutinesRule = MainCoroutinesRule()
+    val userRepository = UserRepository(userClient, userDao)
 
+    given("a github user name") {
+        `when`("the name is correct") {
+            val flow = userRepository.fetchUser("jotyy")
+            flow.collectIndexed { index, value ->
+                when (index) {
+                    0 -> value shouldBeInstanceOf State.Loading::class.java
+                    1 -> {
+                        value shouldBeInstanceOf Success::class.java
+                        (value as Success).data.toString() shouldBeEqualTo mockUserInfo().toString()
+                    }
+                    2 -> value shouldBeInstanceOf State.Loaded::class.java
+                }
+            }
+        }
 
-    @Before
-    fun setup() {
-        repository = UserRepository(userClient, userDao)
-    }
-
-    @Test
-    fun fetchUserInfoSuccess() = runBlocking {
-        val mockData = mockUserInfo()
-        // set mock data
-        whenever(userDao.getUserByName(any())).thenReturn(mockData)
-
-        val flow = repository.fetchUser("jotyy")
-        flow.collectIndexed { index, value ->
-            when (index) {
-                0 -> assertThat(value, `is`(State.Loading))
-                1 -> assertThat((value as Success).data.toString(), `is`(mockData.toString()))
-                2 -> assertThat(value, `is`(State.Loaded))
+        `when`("the name is error") {
+            val flow = userRepository.fetchUser("xixi")
+            flow.collectIndexed { index, value ->
+                when (index) {
+                    0 -> value shouldBeInstanceOf State.Loading::class.java
+                    1 -> value shouldBeInstanceOf Failure::class.java
+                    2 -> {
+                        value shouldBeInstanceOf Success::class.java
+                        (value as Success).data.toString() shouldBeEqualTo mockUserInfo().toString()
+                    }
+                    3 -> value shouldBeInstanceOf State.Loaded::class.java
+                }
             }
         }
     }
-
-    @Test
-    fun fetchUserInfoFailure() = runBlocking {
-        val mockData = mockUserInfo()
-        // set mock data
-        whenever(userDao.getUserByName(any())).thenReturn(mockData)
-
-        val flow = repository.fetchUser("xixi")
-        flow.collectIndexed { index, value ->
-            when (index) {
-                0 -> assertThat(value, `is`(State.Loading))
-                1 -> assertThat(value, instanceOf(Failure::class.java))
-                2 -> assertThat(value, instanceOf(Success::class.java))
-                3 -> assertThat(value, `is`(State.Loaded))
-            }
-        }
-    }
-}
+})
