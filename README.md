@@ -2,7 +2,7 @@
 
 ### 📢 This is an Android MVVM Architecture Sample.
 
-Here is the architecture  graph of this project.
+Here is the architecture graph of this project.
 
 <img src="https://github.com/jotyy/KoinPractice/blob/master/images/MVVM-Architecture.png" alt="image-20201105182731125" style="zoom:67%;" />
 
